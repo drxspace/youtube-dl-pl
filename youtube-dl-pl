@@ -31,8 +31,16 @@ YTPLURL=
 RENAMECMD=
 
 usage () {
-	echo "Usage: ${0##*/} [-v] [-d <directory name>] [-m [<m3u filename>]] url" >&2
+	echo "Usage: ${0##*/} [-h] [-v] [-d <directory name>] [-m [<m3u filename>]] url" >&2
 	exit $1
+}
+
+showhelp () {
+	echo "Usage: ${0##*/} [-h] [-v] [-d <directory name>] [-m [<m3u filename>]] url" >&2
+	echo
+	echo "Options:"
+	echo -e "\t-h\t\t\tprint this help text and exit"
+	exit 0
 }
 
 senderror () {
@@ -87,7 +95,7 @@ __main__ () {
 	while getopts ":hvd:m::" opt; do
 		case "${opt}" in
 			h)
-				usage 0
+				showhelp
 				;;
 			v)
 				VERBOSE=1
