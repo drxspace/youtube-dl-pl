@@ -1,6 +1,6 @@
 youtube-dl-pl
 =============
-A bash script wrapper for Ricardo Garcia's youtube-dl tool
+A bash script wrapper for [Ricardo Garcia's youtube-dl] **great** tool
 
 Installation
 ------------
@@ -16,7 +16,7 @@ OPTIONS
   -v			print various debugging information
   -d PATH		create a directory named PATH and put there the files
   -m [FILE]		create a .m3u playlist file. If the FILE argument is not
-			specified and the -d option exists, the m3u filename is similar to
-			PATH argument
+				specified and the -d option exists, the m3u filename is similar to
+				PATH argument
 ```
 [Ricardo Garcia's youtube-dl]:https://github.com/rg3/youtube-dl
