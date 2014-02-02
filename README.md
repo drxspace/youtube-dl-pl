@@ -21,12 +21,13 @@ use the `rename` command.
 
 Installation
 ------------
+Current version `v0.1` out at 20140202
 ```bash
 sudo curl 'https://raw.github.com/drxspace/youtube-dl-pl/master/youtube-dl-pl.sh' -o /usr/local/bin/youtube-dl-pl
 sudo chmod a+x /usr/local/bin/youtube-dl-pl
 ```
 
-Usage
+Usage (example)
 -----
 The following commands download two **awesome** albums of the group [Toundra] inside
 the folder `$HOME/Music`
