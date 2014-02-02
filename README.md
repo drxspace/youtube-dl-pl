@@ -24,8 +24,10 @@ sudo chmod a+x /usr/local/bin/youtube-dl-pl
 
 Usage
 -----
-The following two commands download two **awesome** albums of the group [Toundra]
+The following commands download two **awesome** albums of the group [Toundra] inside
+the folder ‘Music’ ;)
 ```bash
+cd ~/Music
 youtube-dl-pl -v -d 'Toundra/Toundra (I)' -m 'Toundra (I)' 'http://www.youtube.com/playlist?list=PLA64899EF7305EFBF'
 youtube-dl-pl -v -d 'Toundra/Toundra (II)' -m 'Toundra (II)' 'http://www.youtube.com/playlist?list=PL015CBE02BE2C6ECA'
 ```
