@@ -15,8 +15,8 @@ Dependencies
 Prerequisites
 -------------
 * `ffmpeg` : a very fast video and audio converter 
-* A perl-ish rename tool eg `perl-rename` for [Arch] Linux distros. debian distros
-use the rename command.
+* A perl-ish rename tool eg `perl-rename` for [Arch] Linux distros. [Debian] distros
+use the `rename` command.
 * `mp3info` : a utility used to read and modify the ID3 tags in MPEG layer 3 (MP3) files
 
 Installation
@@ -50,4 +50,9 @@ Options
 [Ricardo Garcia's youtube-dl]:https://github.com/rg3/youtube-dl
 [youtube-dl]:http://rg3.github.io/youtube-dl/download.html
 [Arch]:https://www.archlinux.org/
+[Debian]:http://www.debian.org/
 [Toundra]:http://www.youtube.com/user/ToundraOfficial
+
+License
+-------
+DWTFYWT ...yeah!
