@@ -5,15 +5,19 @@ A bash script wrapper for [Ricardo Garcia's youtube-dl] **great** tool
 Description
 -----------
 **youtube-dl-pl** is a small bash script wrapper for [Ricardo Garcia's youtube-dl] tool
+that will **download** the video files of a youtube playlist, **convert** them to audio
+MPEG layer 3 (MP3) files (VBR 1) and finally **construct** a (M3U) file
 
 Dependencies
 ------------
-* [Ricardo Garcia's youtube-dl] tool
+* [youtube-dl] tool
 
 Prerequisites
 -------------
-* A perl-ish rename tool eg perl-rename for [Arch] Linux distros
-* mp3info tool: a utility used to read and modify the ID3 tags in MPEG layer 3 (MP3) files
+* `ffmpeg` : a very fast video and audio converter 
+* A perl-ish rename tool eg `perl-rename` for [Arch] Linux distros. debian distros
+use the rename command.
+* `mp3info` : a utility used to read and modify the ID3 tags in MPEG layer 3 (MP3) files
 
 Installation
 ------------
@@ -25,7 +29,7 @@ sudo chmod a+x /usr/local/bin/youtube-dl-pl
 Usage
 -----
 The following commands download two **awesome** albums of the group [Toundra] inside
-the folder ‘Music’ ;)
+the folder `$HOME/Music`
 ```bash
 cd ~/Music
 youtube-dl-pl -v -d 'Toundra/Toundra (I)' -m 'Toundra (I)' 'http://www.youtube.com/playlist?list=PLA64899EF7305EFBF'
@@ -44,5 +48,6 @@ Options
 ```
 
 [Ricardo Garcia's youtube-dl]:https://github.com/rg3/youtube-dl
+[youtube-dl]:http://rg3.github.io/youtube-dl/download.html
 [Arch]:https://www.archlinux.org/
 [Toundra]:http://www.youtube.com/user/ToundraOfficial

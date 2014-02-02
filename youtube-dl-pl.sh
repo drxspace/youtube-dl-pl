@@ -15,7 +15,7 @@ DEBUG=
 # quiet mode is the default mode
 VERBOSE=0
 
-# the directory that shall host the mp3 files
+# the directory that may host the mp3 files
 DIRECTORY=
 
 # the m3u playlist filename
@@ -54,7 +54,7 @@ senderror () {
 	esac
 }
 
-# Check to see which is perl-ish rename utility of your distro
+# Check to see which is the perl-ish rename utility of your distro
 # and if it exists
 renameUtil () {
 	# Debian distros
@@ -86,6 +86,7 @@ buildplaylist () {
 		echo "${songfn}" >> "${M3U}"
 	done
 }
+
 
 __main__ () {
 
