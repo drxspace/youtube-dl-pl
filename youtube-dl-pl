@@ -38,7 +38,7 @@ showhelp () {
 	echo "Options:"
 	echo -e "  -h\t\t\tprint this help text and exit"
 	echo -e "  -v\t\t\tprint various debugging information"
-	echo -e "  -d PATH\t\tcreate a directory named PATH and put there the files"
+	echo -e "  -d PATH\t\tcreate a directory named PATH and put the files in it"
 	echo -e "  -m [FILE]\t\tcreate a .m3u playlist file. If the FILE argument is not"
 	echo -e "\t\t\tspecified and the -d option exists, the m3u filename is similar to"
 	echo -e "\t\t\tPATH argument"
