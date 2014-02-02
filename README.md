@@ -8,12 +8,12 @@ Description
 
 Dependencies
 ------------
-> [Ricardo Garcia's youtube-dl] tool
+* [Ricardo Garcia's youtube-dl] tool
 
 Prerequisites
 -------------
-> A perl-ish rename tool eg perl-rename for [Arch] Linux distros
-> mp3info tool: a utility used to read and modify the ID3 tags in MPEG layer 3 (MP3) files
+* A perl-ish rename tool eg perl-rename for [Arch] Linux distros
+* mp3info tool: a utility used to read and modify the ID3 tags in MPEG layer 3 (MP3) files
 
 Installation
 ------------
