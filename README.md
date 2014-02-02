@@ -5,7 +5,7 @@ A bash script wrapper for [Ricardo Garcia's youtube-dl] **great** tool
 Installation
 ------------
 ```bash
-sudo curl 'https://raw.github.com/drxspace/youtube-dl-pl/master/youtube-dl-pl' -o /usr/local/bin/youtube-dl-pl
+sudo curl 'https://raw.github.com/drxspace/youtube-dl-pl/master/youtube-dl-pl.sh' -o /usr/local/bin/youtube-dl-pl
 sudo chmod a+x /usr/local/bin/youtube-dl-pl
 ```
 
