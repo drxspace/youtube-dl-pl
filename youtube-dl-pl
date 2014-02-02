@@ -9,9 +9,6 @@
 #
 set -e
 
-# I have 1 issue(s):
-# - mandatory argument with optional option/argument
-
 # switch to debugging mode
 DEBUG=
 
@@ -31,15 +28,20 @@ YTPLURL=
 RENAMECMD=
 
 usage () {
-	echo "Usage: ${0##*/} [-h] [-v] [-d <directory name>] [-m [<m3u filename>]] url" >&2
+	echo "Usage: ${0##*/} [-h] [-v] [-d PATH] [-m [FILE]] URL" >&2
 	exit $1
 }
 
 showhelp () {
-	echo "Usage: ${0##*/} [-h] [-v] [-d <directory name>] [-m [<m3u filename>]] url" >&2
+	echo "Usage: ${0##*/} [-h] [-v] [-d PATH] [-m [FILE]] URL" >&2
 	echo
 	echo "Options:"
-	echo -e "\t-h\t\t\tprint this help text and exit"
+	echo -e "  -h\t\t\tprint this help text and exit"
+	echo -e "  -v\t\t\tprint various debugging information"
+	echo -e "  -d PATH\t\tcreate a directory named PATH and put there the files"
+	echo -e "  -m [FILE]\t\tcreate a .m3u playlist file. If the FILE argument is not"
+	echo -e "\t\t\tspecified and the -d option exists, the m3u filename is similar to"
+	echo -e "\t\t\tPATH argument"
 	exit 0
 }
 
@@ -91,7 +93,8 @@ __main__ () {
 	renameUtil
 
 	# check command options
-	# no long options :(
+	# -- no long options for getopts :(
+	# -- mandatory argument with optional option/argument ":hvd:m::" :'(
 	while getopts ":hvd:m::" opt; do
 		case "${opt}" in
 			h)
@@ -104,7 +107,7 @@ __main__ () {
 				[[ "$OPTARG" ]] && DIRECTORY="$OPTARG" || usage 1
 				;;
 			m)
-				[[ "$OPTARG" ]] && M3U="$OPTARG"
+				[[ "$OPTARG" ]] && M3U="$OPTARG" || M3U="unnamed"
 				;;
 			\?)
 				echo "Invalid option: -$OPTARG" >&2
@@ -124,19 +127,15 @@ __main__ () {
 		#echo "Oops... something's wrong. Maybe the youtube url's missing."
 		usage 1
 	}
-
 	# set a proper m3u filename
-	if [[ -z "${M3U}" ]] && [[ -n "${DIRECTORY}" ]]; then
+	if { [[ -z "${M3U}" ]] || [[ "${M3U}" == "unnamed" ]] ; } && [[ -n "${DIRECTORY}" ]]; then
 		M3U="${DIRECTORY}".m3u
-	elif [[ -z "${M3U}" ]]; then
-		M3U="unknown.m3u"
 	fi
-
 
 	[[ ${DIRECTORY} ]] && {
 		(( ${VERBOSE} )) && echo "Creating the directory “${DIRECTORY}”."
 		[[ -z "${DEBUG}" ]] && {
-			mkdir "${DIRECTORY}"
+			mkdir -p "${DIRECTORY}"
 			cd "${DIRECTORY}"
 		}
 	}
