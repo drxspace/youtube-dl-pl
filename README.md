@@ -24,6 +24,11 @@ sudo chmod a+x /usr/local/bin/youtube-dl-pl
 
 Usage
 -----
+The following two commands download two **awesome** albums of the group [Toundra]
+```bash
+youtube-dl-pl -v -d 'Toundra/Toundra (I)' -m 'Toundra (I)' 'http://www.youtube.com/playlist?list=PLA64899EF7305EFBF'
+youtube-dl-pl -v -d 'Toundra/Toundra (II)' -m 'Toundra (II)' 'http://www.youtube.com/playlist?list=PL015CBE02BE2C6ECA'
+```
 
 Options
 -------
@@ -38,3 +43,4 @@ Options
 
 [Ricardo Garcia's youtube-dl]:https://github.com/rg3/youtube-dl
 [Arch]:https://www.archlinux.org/
+[Toundra]:http://www.youtube.com/user/ToundraOfficial
