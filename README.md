@@ -6,7 +6,7 @@ Description
 -----------
 **youtube-dl-pl** is a small bash script wrapper for [Ricardo Garcia's youtube-dl] tool
 that will **download** the video files of a youtube playlist, **convert** them to audio
-MPEG layer 3 (MP3) files (VBR 1) and finally **construct** a (M3U) file
+MPEG layer 3 (MP3) files (VBR 1) and finally **construct** a (M3U) playlist file.
 
 Dependencies
 ------------
@@ -30,7 +30,7 @@ sudo chmod a+x /usr/local/bin/youtube-dl-pl
 Usage (example)
 ---------------
 It's recommended before starting the playlist download ckeck that all the videos
-of the list exist.
+of the list exist.  
 The following commands download two **awesome** albums of the group [Toundra] inside
 the folder `$HOME/Music`
 ```bash
