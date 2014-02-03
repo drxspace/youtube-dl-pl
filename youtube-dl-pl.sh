@@ -7,7 +7,7 @@
 # \__,_/   /_/     /_/|_|  /_____/   _  .___/ /_/  |_|\____/   /_____/
 #                                    /_/           drxspace@gmail.com
 #
-set -e
+#set -e
 
 # switch to debugging mode
 DEBUG=
@@ -142,7 +142,7 @@ __main__ () {
 	}
 	[[ ${YTPLURL} ]] && {
 		(( ${VERBOSE} )) && echo "Downloading playlist files. Please wait..."
-		[[ -z "${DEBUG}" ]] && youtube-dl "${YTPLURL}" -o "%(playlist_index)s. %(title)s.%(ext)s" -x --audio-format mp3 --audio-quality 1
+		[[ -z "${DEBUG}" ]] && youtube-dl "${YTPLURL}" -o "%(playlist_index)s. %(title)s.%(ext)s" -i -x --audio-format mp3 --audio-quality 1
 		(( ${VERBOSE} )) && [ "${RENAMECMD}" ] && echo "Renaming downloaded files."
 		[[ -z "${DEBUG}" ]] && {
 			"${RENAMECMD}" 's/^0*//' *.mp3
