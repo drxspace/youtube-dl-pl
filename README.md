@@ -21,7 +21,7 @@ use the `rename` command.
 
 Installation
 ------------
-Current version `v0.1-1` out at 20140203
+Current version `v0.2-1` out at 20140204
 ```bash
 sudo curl 'https://raw.github.com/drxspace/youtube-dl-pl/master/youtube-dl-pl.sh' -o /usr/local/bin/youtube-dl-pl
 sudo chmod a+x /usr/local/bin/youtube-dl-pl
@@ -45,8 +45,8 @@ Options
   -h			print this help text and exit
   -v			print various debugging information
   -d PATH		create a directory named PATH and put the files in it
-  -m [FILE]		create a .m3u playlist file. If the FILE argument is not
-				specified and the -d option exists, the m3u filename is similar to
+  -m FILE		create a .m3u playlist file. If this options don't
+				exist and the -d option exists, the m3u filename is similar to
 				PATH argument
 ```
 

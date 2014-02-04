@@ -28,19 +28,19 @@ YTPLURL=
 RENAMECMD=
 
 usage () {
-	echo "Usage: ${0##*/} [-h] [-v] [-d PATH] [-m [FILE]] URL" >&2
+	echo "Usage: ${0##*/} [-h] [-v] [-d PATH] [-m FILE] URL" >&2
 	exit $1
 }
 
 showhelp () {
-	echo "Usage: ${0##*/} [-h] [-v] [-d PATH] [-m [FILE]] URL" >&2
+	echo "Usage: ${0##*/} [-h] [-v] [-d PATH] [-m FILE] URL" >&2
 	echo
 	echo "Options:"
 	echo -e "  -h\t\t\tprint this help text and exit"
 	echo -e "  -v\t\t\tprint various debugging information"
 	echo -e "  -d PATH\t\tcreate a directory named PATH and put the files in it"
-	echo -e "  -m [FILE]\t\tcreate a .m3u playlist file. If the FILE argument is not"
-	echo -e "\t\t\tspecified and the -d option exists, the m3u filename is similar to"
+	echo -e "  -m FILE\t\tcreate a .m3u playlist file. If this options don't"
+	echo -e "\t\t\texist and the -d option exists, the m3u filename is similar to"
 	echo -e "\t\t\tPATH argument"
 	exit 0
 }
@@ -95,8 +95,8 @@ __main__ () {
 
 	# check command options
 	# -- no long options for getopts :(
-	# -- mandatory argument with optional option/argument ":hvd:m::" :'(
-	while getopts ":hvd:m::" opt; do
+	# -- mandatory argument with optional option/argument ":hvd:m::" :(
+	while getopts ":hvd:m:" opt; do
 		case "${opt}" in
 			h)
 				showhelp
@@ -105,10 +105,10 @@ __main__ () {
 				VERBOSE=1
 				;;
 			d)
-				[[ "$OPTARG" ]] && DIRECTORY="$OPTARG" || usage 1
+				[[ "$OPTARG" != -* ]] && DIRECTORY="$OPTARG" || usage 1
 				;;
 			m)
-				[[ "$OPTARG" ]] && M3U="$OPTARG" || M3U="unnamed"
+				[[ "$OPTARG" != -* ]] && M3U="$OPTARG" || M3U="unnamed"
 				;;
 			\?)
 				echo "Invalid option: -$OPTARG" >&2
