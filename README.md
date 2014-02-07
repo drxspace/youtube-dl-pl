@@ -21,9 +21,10 @@ use the `rename` command.
 
 Installation
 ------------
-Current version `v0.2-1` out at 20140204
+Current version `v0.2-2` out at 20140207
 ```bash
 sudo curl 'https://raw.github.com/drxspace/youtube-dl-pl/master/youtube-dl-pl.sh' -o /usr/local/bin/youtube-dl-pl
+
 sudo chmod a+x /usr/local/bin/youtube-dl-pl
 ```
 
