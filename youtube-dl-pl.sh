@@ -128,9 +128,9 @@ __main__ () {
 		#echo "Oops... something's wrong. Maybe the youtube url's missing."
 		usage 1
 	}
-	# set a proper m3u filename
+	# set a m3u filename if it's not specified
 	if { [[ -z "${M3U}" ]] || [[ "${M3U}" == "unnamed" ]] ; } && [[ -n "${DIRECTORY}" ]]; then
-		M3U="${DIRECTORY}".m3u
+		M3U="${DIRECTORY##*/}".m3u
 	fi
 
 	[[ ${DIRECTORY} ]] && {
