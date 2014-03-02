@@ -21,7 +21,7 @@ use the `rename` command.
 
 Installation
 ------------
-Current version `v0.2-2` out at 20140207
+Current version `v0.2-3` released at 20140302
 ```bash
 sudo curl 'https://raw.github.com/drxspace/youtube-dl-pl/master/youtube-dl-pl.sh' -o /usr/local/bin/youtube-dl-pl
 
