@@ -74,16 +74,16 @@ getTimeDuration () {
 	local mp3tool
 
 	mp3tool=$(which mp3info 2>/dev/null)
-	[[ "${mp3tool}" ]] && "${mp3tool}" -p "%S" "$1" || echo -n "0"
+	[[ "${mp3tool}" ]] && "${mp3tool}" -p "%S" "$*" || echo -n "0"
 }
 
-# create the m3u playlist file
+# create the given m3u playlist file
 buildplaylist () {
 	[[ -z $(ls *.mp3 2>/dev/null) ]] && senderror 1
-	echo '#EXTM3U' > "${M3U}"
+	echo '#EXTM3U' > "$*"
 	for songfn in *.mp3; do
-		echo "#EXTINF:"$(getTimeDuration "${songfn}")",${songfn}" >> "${M3U}"
-		echo "${songfn}" >> "${M3U}"
+		echo "#EXTINF:"$(getTimeDuration "${songfn}")",${songfn}" >> "$*"
+		echo "${songfn}" >> "$*"
 	done
 }
 
@@ -153,7 +153,7 @@ __main__ () {
 		# set a proper extension if needed
 		[[ "${M3U##*.}" == "m3u" ]] || M3U="${M3U%.*}".m3u
 		(( ${VERBOSE} )) && echo "Constructing the playlist “${M3U}” file."
-		[[ -z "${DEBUG}" ]] && buildplaylist
+		[[ -z "${DEBUG}" ]] && buildplaylist "${M3U}"
 	}
 
 }
