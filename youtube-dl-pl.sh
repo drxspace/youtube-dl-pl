@@ -78,7 +78,7 @@ getTimeDuration () {
 	local mp3tool
 
 	mp3tool=$(which mp3info 2>/dev/null)
-	[[ "${mp3tool}" ]] && "${mp3tool}" -p "%S" "$*" 2> /dev/null || echo -n "0"
+	[[ "${mp3tool}" ]] && "${mp3tool}" -p "%S" "$*" 2>/dev/null || echo -n "0"
 }
 
 # create the given m3u playlist file
