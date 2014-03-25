@@ -21,6 +21,9 @@ DIRECTORY=
 # the m3u playlist filename
 M3U=
 
+#
+ENCODEAUDIO="-x --audio-format mp3 --audio-quality 1"
+
 # the youtube's playlist url
 YTPLURL=
 
@@ -28,20 +31,21 @@ YTPLURL=
 RENAMECMD=
 
 usage () {
-	echo "Usage: ${0##*/} [-h] [-v] [-d PATH] [-m FILE] URL" >&2
+	echo "Usage: ${0##*/} [-d PATH] [-h] [-k] [-m FILE] [-v] URL" >&2
 	exit $1
 }
 
 showhelp () {
-	echo "Usage: ${0##*/} [-h] [-v] [-d PATH] [-m FILE] URL" >&2
+	echo "Usage: ${0##*/} [-d PATH] [-h] [-k] [-m FILE] [-v] URL" >&2
 	echo
 	echo "Options:"
-	echo -e "  -h\t\t\tprint this help text and exit"
-	echo -e "  -v\t\t\tprint various debugging information"
 	echo -e "  -d PATH\t\tcreate a directory named PATH and put the files in it"
+	echo -e "  -h\t\t\tprint this help text and exit"
+	echo -e "  -k\t\t\tkeeps the videos in the playlist, don't extract audio"
 	echo -e "  -m FILE\t\tcreate a .m3u playlist file. If this options don't"
 	echo -e "\t\t\texist and the -d option exists, the m3u filename is similar to"
-	echo -e "\t\t\tPATH argument"
+	echo -e "\t\t\tthe last part of the PATH argument"
+	echo -e "  -v\t\t\tprint various debugging information"
 	exit 0
 }
 
@@ -74,16 +78,18 @@ getTimeDuration () {
 	local mp3tool
 
 	mp3tool=$(which mp3info 2>/dev/null)
-	[[ "${mp3tool}" ]] && "${mp3tool}" -p "%S" "$*" || echo -n "0"
+	[[ "${mp3tool}" ]] && "${mp3tool}" -p "%S" "$*" 2> /dev/null || echo -n "0"
 }
 
 # create the given m3u playlist file
 buildplaylist () {
-	[[ -z $(ls *.mp3 2>/dev/null) ]] && senderror 1
+	local multifn
+
+	[[ -z $(ls *.mp[34] 2>/dev/null) ]] && senderror 1
 	echo '#EXTM3U' > "$*"
-	for songfn in *.mp3; do
-		echo "#EXTINF:"$(getTimeDuration "${songfn}")",${songfn}" >> "$*"
-		echo "${songfn}" >> "$*"
+	for multifn in *.mp[34]; do
+		echo "#EXTINF:"$(getTimeDuration "${multifn}")",${multifn}" >> "$*"
+		echo "${multifn}" >> "$*"
 	done
 }
 
@@ -96,19 +102,22 @@ __main__ () {
 	# check command options
 	# -- no long options for getopts :(
 	# -- mandatory argument with optional option/argument ":hvd:m::" :(
-	while getopts ":hvd:m:" opt; do
+	while getopts ":d:hkm:v" opt; do
 		case "${opt}" in
-			h)
-				showhelp
-				;;
-			v)
-				VERBOSE=1
-				;;
 			d)
 				[[ "$OPTARG" != -* ]] && DIRECTORY="$OPTARG" || usage 1
 				;;
+			h)
+				showhelp
+				;;
+			k)
+				ENCODEAUDIO=""
+				;;
 			m)
 				[[ "$OPTARG" != -* ]] && M3U="$OPTARG" || M3U="unnamed"
+				;;
+			v)
+				VERBOSE=1
 				;;
 			\?)
 				echo "Invalid option: -$OPTARG" >&2
@@ -142,11 +151,11 @@ __main__ () {
 	}
 	[[ ${YTPLURL} ]] && {
 		(( ${VERBOSE} )) && echo "Downloading playlist files. Please wait..."
-		[[ -z "${DEBUG}" ]] && youtube-dl "${YTPLURL}" -o "%(playlist_index)s. %(title)s.%(ext)s" -i -x --audio-format mp3 --audio-quality 1
+		[[ -z "${DEBUG}" ]] && youtube-dl -c -i -o "%(playlist_index)s. %(title)s.%(ext)s" "${ENCODEAUDIO}" "${YTPLURL}"
 		(( ${VERBOSE} )) && [ "${RENAMECMD}" ] && echo "Renaming downloaded files."
 		[[ -z "${DEBUG}" ]] && {
-			"${RENAMECMD}" 's/^0*//' *.mp3
-			"${RENAMECMD}" 's/^(\d)\./0$1./' *.mp3
+			"${RENAMECMD}" 's/^0*//' *.mp[34]
+			"${RENAMECMD}" 's/^(\d)\./0$1./' *.mp[34]
 		}
 	}
 	[[ ${M3U} ]] && {

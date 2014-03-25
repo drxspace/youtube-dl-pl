@@ -21,10 +21,9 @@ use the `rename` command.
 
 Installation
 ------------
-Current version `v0.2-3` released at 20140302
+Current version `v0.3-1` released at 20140325
 ```bash
 sudo curl 'https://raw.github.com/drxspace/youtube-dl-pl/master/youtube-dl-pl.sh' -o /usr/local/bin/youtube-dl-pl
-
 sudo chmod a+x /usr/local/bin/youtube-dl-pl
 ```
 
@@ -43,13 +42,13 @@ youtube-dl-pl -v -d 'Toundra/Toundra (II)' -m 'Toundra (II)' 'http://www.youtube
 Options
 -------
 ```
-  -h			print this help text and exit
-  -v			print various debugging information
   -d PATH		create a directory named PATH and put the files in it
+  -h			print this help text and exit
+  -k			keeps the videos in the playlist, don't extract audio
   -m FILE		create a .m3u playlist file. If this options don't
 				exist and the -d option exists, the m3u filename is similar to
-				PATH argument
-```
+				the last part of the PATH argument
+  -v			print various debugging information```
 
 [Ricardo Garcia's youtube-dl]:https://github.com/rg3/youtube-dl
 [youtube-dl]:http://rg3.github.io/youtube-dl/download.html
