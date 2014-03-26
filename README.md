@@ -48,7 +48,8 @@ Options
   -m FILE		create a .m3u playlist file. If this options don't
 				exist and the -d option exists, the m3u filename is similar to
 				the last part of the PATH argument
-  -v			print various debugging information```
+  -v			print various debugging information
+```
 
 [Ricardo Garcia's youtube-dl]:https://github.com/rg3/youtube-dl
 [youtube-dl]:http://rg3.github.io/youtube-dl/download.html
