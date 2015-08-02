@@ -46,7 +46,7 @@ showhelp () {
 	echo -e "  -m FILE\t\tcreate a .m3u playlist file. If this options don't"
 	echo -e "\t\t\texist and the -d option exists, the m3u filename is similar to"
 	echo -e "\t\t\tthe last part of the PATH argument"
-	echo -e "  -v\t\t\tprint various debugging information"
+	echo -e "  -v\t\t\tprint various status information"
 	exit 0
 }
 
