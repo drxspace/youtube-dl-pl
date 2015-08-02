@@ -13,6 +13,7 @@
 DEBUG=
 
 # quiet mode is the default mode
+ISQUIET="-q --console-title"
 VERBOSE=0
 
 # the directory that may host the mp3 files
@@ -143,7 +144,7 @@ __main__ () {
 	fi
 
 	[[ ${DIRECTORY} ]] && {
-		(( ${VERBOSE} )) && echo "Creating the directory ‘$(pwd)/${DIRECTORY}’ and getting into it"
+		(( ${VERBOSE} )) && echo ":: Creating the directory ‘$(pwd)/${DIRECTORY}’ and getting into it"
 		[[ -z "${DEBUG}" ]] && {
 			mkdir -p "${DIRECTORY}"
 			cd "${DIRECTORY}"
@@ -151,11 +152,12 @@ __main__ () {
 	}
 	[[ ${YTPLURL} ]] && {
 		(( ${VERBOSE} )) && {
-			echo "Running cmd: youtube-dl -c -i -o \"%(playlist_index)s. %(title)s.%(ext)s\" ${ENCODEAUDIO} ${YTPLURL}"
-			echo "Downloading playlist files. Please wait..."
+			ISQUIET=
+			echo ":: Running cmd: youtube-dl -c -i -o \"%(playlist_index)s. %(title)s.%(ext)s\" ${ENCODEAUDIO} ${YTPLURL}"
 		}
-		[[ -z "${DEBUG}" ]] && youtube-dl -c -i -o "%(playlist_index)s. %(title)s.%(ext)s" ${ENCODEAUDIO} "${YTPLURL}"
-		(( ${VERBOSE} )) && [ "${RENAMECMD}" ] && echo "Renaming downloaded files"
+		echo ":: Downloading playlist files. Please wait for this process to complete or press ‘Ctrl+C’ to abort it"
+		[[ -z "${DEBUG}" ]] && youtube-dl ${ISQUIET} -c -i -o "%(playlist_index)s. %(title)s.%(ext)s" ${ENCODEAUDIO} "${YTPLURL}"
+		(( ${VERBOSE} )) && [ "${RENAMECMD}" ] && echo ":: Renaming downloaded files"
 		[[ -z "${DEBUG}" ]] && {
 			"${RENAMECMD}" 's/^0*//' *.mp[34]
 			"${RENAMECMD}" 's/^(\d)\./0$1./' *.mp[34]
@@ -164,7 +166,7 @@ __main__ () {
 	[[ ${M3U} ]] && {
 		# set a proper extension if needed
 		[[ ${M3U##*.} == "m3u" ]] || M3U=${M3U}.m3u
-		(( ${VERBOSE} )) && echo "Constructing the playlist ‘${M3U}’ file"
+		(( ${VERBOSE} )) && echo ":: Constructing the playlist ‘${M3U}’ file"
 		[[ -z "${DEBUG}" ]] && buildplaylist "${M3U}"
 	}
 

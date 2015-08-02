@@ -21,11 +21,12 @@ use the `rename` command.
 
 Installation
 ------------
-Current version `v0.3-2` released at 20140405
+Current version `v0.4-1` released at 20150802
 ```bash
 sudo curl 'https://raw.github.com/drxspace/youtube-dl-pl/master/youtube-dl-pl.sh' -o /usr/local/bin/youtube-dl-pl
 
 sudo chmod a+x /usr/local/bin/youtube-dl-pl
+
 ```
 
 Usage (example)
@@ -38,6 +39,7 @@ the folder `$HOME/Music`
 cd ~/Music
 youtube-dl-pl -v -d 'Toundra/Toundra (I)' -m 'Toundra (I)' 'http://www.youtube.com/playlist?list=PLA64899EF7305EFBF'
 youtube-dl-pl -v -d 'Toundra/Toundra (II)' -m 'Toundra (II)' 'http://www.youtube.com/playlist?list=PL015CBE02BE2C6ECA'
+
 ```
 
 Options
