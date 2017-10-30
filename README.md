@@ -51,6 +51,7 @@ Options
   -m FILE		create a .m3u playlist file. If this options don't
 				exist and the -d option exists, the m3u filename is similar to
 				the last part of the PATH argument
+  -V			use Vorbis format instead of MP3
   -v			print various status information
 ```
 
