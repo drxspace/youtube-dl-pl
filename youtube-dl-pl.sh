@@ -24,6 +24,8 @@ M3U=
 
 #
 ENCODEAUDIO="-x --audio-format mp3 --audio-quality 1"
+# '1' if in Vorbis encoding mode
+VORBISMODE=
 
 # the youtube's playlist url
 YTPLURL=
@@ -32,12 +34,12 @@ YTPLURL=
 RENAMECMD=
 
 usage () {
-	echo "Usage: ${0##*/} [-d PATH] [-h] [-k] [-m FILE] [-v] URL" >&2
+	echo "Usage: ${0##*/} [-d PATH] [-h] [-k] [-m FILE] [-V] [-v] URL" >&2
 	exit $1
 }
 
 showhelp () {
-	echo "Usage: ${0##*/} [-d PATH] [-h] [-k] [-m FILE] [-v] URL" >&2
+	echo "Usage: ${0##*/} [-d PATH] [-h] [-k] [-m FILE] [-V] [-v] URL" >&2
 	echo
 	echo "Options:"
 	echo -e "  -d PATH\t\tcreate a directory named PATH and put the files in it"
@@ -46,6 +48,7 @@ showhelp () {
 	echo -e "  -m FILE\t\tcreate a .m3u playlist file. If this options don't"
 	echo -e "\t\t\texist and the -d option exists, the m3u filename is similar to"
 	echo -e "\t\t\tthe last part of the PATH argument"
+	echo -e "  -V\t\t\tuse Vorbis format instead of MP3"
 	echo -e "  -v\t\t\tprint various status information"
 	exit 0
 }
@@ -53,7 +56,11 @@ showhelp () {
 senderror () {
 	case $1 in
 		1)
+			[[ -z "${VORBISMODE}" ]] && {
 			echo "Error opening MP3: *.mp3: No such file or directory"
+			} || {
+			echo "Error opening Ogg Vorbis: *.ogg: No such file or directory"
+			}
 			exit 2
 			;;
 	esac
@@ -76,22 +83,34 @@ renameUtil () {
 # use the mp3info utility, if it exists, to get the length of the track
 # in whole seconds
 getTimeDuration () {
-	local mp3tool
+	[[ -z "${VORBISMODE}" ]] && {
+		local mp3tool
 
-	mp3tool=$(which mp3info 2>/dev/null)
-	[[ "${mp3tool}" ]] && "${mp3tool}" -p "%S" "$*" 2>/dev/null || echo -n "0"
+		mp3tool=$(which mp3info 2>/dev/null)
+		[[ "${mp3tool}" ]] && "${mp3tool}" -p "%S" "$*" 2>/dev/null || echo -n "0"
+	} || {
+		echo -n "0"
+	}
 }
 
 # create the given m3u playlist file
 buildplaylist () {
 	local multifn
 
-	[[ -z $(ls *.mp[34] 2>/dev/null) ]] && senderror 1
+	[[ -z "${VORBISMODE}" ]] && [[ -z $(ls *.mp[34] 2>/dev/null) ]] && senderror 1
+	[[ -n "${VORBISMODE}" ]] && [[ -z $(ls *.ogg 2>/dev/null) ]] && senderror 1
 	echo '#EXTM3U' > "$*"
-	for multifn in *.mp[34]; do
-		echo "#EXTINF:"$(getTimeDuration "${multifn}")",${multifn}" >> "$*"
-		echo "${multifn}" >> "$*"
-	done
+	if [ -z "${VORBISMODE}" ]; then
+		for multifn in *.mp[34]; do
+			echo "#EXTINF:"$(getTimeDuration "${multifn}")",${multifn}" >> "$*"
+			echo "${multifn}" >> "$*"
+		done
+	else
+		for multifn in *.ogg; do
+			echo "#EXTINF:"$(getTimeDuration "${multifn}")",${multifn}" >> "$*"
+			echo "${multifn}" >> "$*"
+		done
+	fi
 }
 
 
@@ -103,7 +122,7 @@ __main__ () {
 	# check command options
 	# -- no long options for getopts :(
 	# -- mandatory argument with optional option/argument ":hvd:m::" :(
-	while getopts ":d:hkm:v" opt; do
+	while getopts ":d:hkm:Vv" opt; do
 		case "${opt}" in
 			d)
 				[[ "$OPTARG" != -* ]] && DIRECTORY="$OPTARG" || usage 1
@@ -113,6 +132,10 @@ __main__ () {
 				;;
 			k)
 				ENCODEAUDIO=""
+				;;
+			V)
+				ENCODEAUDIO="-x --audio-format vorbis --audio-quality 1"
+				VORBISMODE="1"
 				;;
 			m)
 				[[ "$OPTARG" != -* ]] && M3U="$OPTARG" || M3U="unnamed"
@@ -159,8 +182,13 @@ __main__ () {
 		[[ -z "${DEBUG}" ]] && youtube-dl ${ISQUIET} -c -i -o "%(playlist_index)s. %(title)s.%(ext)s" ${ENCODEAUDIO} "${YTPLURL}"
 		(( ${VERBOSE} )) && [ "${RENAMECMD}" ] && echo ":: Renaming downloaded files"
 		[[ -z "${DEBUG}" ]] && {
-			"${RENAMECMD}" 's/^0*//' *.mp[34]
-			"${RENAMECMD}" 's/^(\d)\./0$1./' *.mp[34]
+			if [ -z "${VORBISMODE}" ]; then
+				"${RENAMECMD}" 's/^0*//' *.mp[34]
+				"${RENAMECMD}" 's/^(\d)\./0$1./' *.mp[34]
+			else
+				"${RENAMECMD}" 's/^0*//' *.ogg
+				"${RENAMECMD}" 's/^(\d)\./0$1./' *.ogg
+			fi
 		}
 	}
 	[[ ${M3U} ]] && {
