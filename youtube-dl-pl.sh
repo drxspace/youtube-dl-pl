@@ -26,6 +26,9 @@ M3U=
 ENCODEAUDIO="-x --audio-format mp3 --audio-quality 1"
 # '1' if in Vorbis encoding mode
 VORBISMODE=
+# args for playlist start/end selection
+STARTARG=
+ENDARG=
 
 # the youtube's playlist url
 YTPLURL=
@@ -49,6 +52,8 @@ showhelp () {
 	echo -e "\t\t\texist and the -d option exists, the m3u filename is similar to"
 	echo -e "\t\t\tthe last part of the PATH argument"
 	echo -e "  -V\t\t\tuse Vorbis format instead of MP3"
+	echo -e "  -s NUMBER\t\t\tstart at the specified track on the playlist"
+	echo -e "  -e NUMBER\t\t\tstop at the specified track on the playlist"
 	echo -e "  -v\t\t\tprint various status information"
 	exit 0
 }
@@ -122,7 +127,7 @@ __main__ () {
 	# check command options
 	# -- no long options for getopts :(
 	# -- mandatory argument with optional option/argument ":hvd:m::" :(
-	while getopts ":d:hkm:Vv" opt; do
+	while getopts ":d:hkm:Vvs:e:" opt; do
 		case "${opt}" in
 			d)
 				[[ "$OPTARG" != -* ]] && DIRECTORY="$OPTARG" || usage 1
@@ -146,6 +151,12 @@ __main__ () {
 			\?)
 				echo "Invalid option: -$OPTARG" >&2
 				usage 1
+				;;
+			s)
+				STARTARG="--playlist-start $OPTARG"
+				;;
+			e)
+				ENDARG="--playlist-end $OPTARG"
 				;;
 			:)
 				echo "Option -$OPTARG requires an argument" >&2
@@ -176,10 +187,10 @@ __main__ () {
 	[[ ${YTPLURL} ]] && {
 		(( ${VERBOSE} )) && {
 			ISQUIET=
-			echo ":: Running cmd: youtube-dl -c -i -o \"%(playlist_index)s. %(title)s.%(ext)s\" ${ENCODEAUDIO} ${YTPLURL}"
+			echo ":: Running cmd: youtube-dl -c -i -o \"%(playlist_index)s. %(title)s.%(ext)s\" ${ENCODEAUDIO} ${STARTARG} ${ENDARG} ${YTPLURL}"
 		}
 		echo ":: Downloading playlist files. Please wait for this process to complete or press ‘Ctrl+C’ to abort it"
-		[[ -z "${DEBUG}" ]] && youtube-dl ${ISQUIET} -c -i -o "%(playlist_index)s. %(title)s.%(ext)s" ${ENCODEAUDIO} "${YTPLURL}"
+		[[ -z "${DEBUG}" ]] && youtube-dl ${ISQUIET} -c -i -o "%(playlist_index)s. %(title)s.%(ext)s" ${ENCODEAUDIO} ${STARTARG} ${ENDARG} "${YTPLURL}"
 		(( ${VERBOSE} )) && [ "${RENAMECMD}" ] && echo ":: Renaming downloaded files"
 		[[ -z "${DEBUG}" ]] && {
 			if [ -z "${VORBISMODE}" ]; then
